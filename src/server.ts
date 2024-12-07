@@ -42,7 +42,7 @@ app.get("/comments", async (req: Request, res: Response) => {
 
 // Add a new comment
 app.post("/comments", async (req: Request, res: Response) => {
-  const { comment, commenter, path } = req.body;
+  const { comment, commenter, pagePath } = req.body;
 
   if (!comment) {
     res.status(400).json({ error: "Comment text is required" });
@@ -50,8 +50,8 @@ app.post("/comments", async (req: Request, res: Response) => {
 
   try {
     const result = await db.run(
-      "INSERT INTO comments (comment, commenter, path) VALUES (?, ?, path)",
-      [comment, commenter || "Anonymous", path]
+      "INSERT INTO comments (comment, commenter, page_path) VALUES (?, ?, ?)",
+      [comment, commenter || "Anonymous", pagePath]
     );
 
     if (result && result.lastID) {

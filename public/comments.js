@@ -49,7 +49,7 @@
     commentList.className = "comment-list";
 
     commentData
-      .filter((comment) => comment.path === window.location.pathname)
+      .filter((comment) => comment.page_path === window.location.href)
       .forEach((comment) => {
         // Create the comment container
         const commentDiv = document.createElement("div");
@@ -104,7 +104,7 @@
 
   // Function to add a new comment
   async function addComment() {
-    const path = window.location.pathname;
+    const pagePath = window.location.href;
     const text = textArea.value.trim();
     const commenter = commenterNameOrEmail.value.trim() || "Anonymous";
 
@@ -117,7 +117,7 @@
       const response = await fetch("http://localhost:3000/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ comment: text, commenter, path }),
+        body: JSON.stringify({ comment: text, commenter, pagePath }),
       });
 
       if (response.ok) {

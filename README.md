@@ -28,11 +28,11 @@ Just Opinion (Comments) is a project to provide a very simple bare-bone commenti
 
 1. Build the project:
    ```bash
-   npm build
+   npm run build
    ```
 2. Start the development server in `dev` mode:
     ```bash
-    npm dev
+    npm run dev
     ```
 3. Start the development server in `production` mode:
     ```bash
