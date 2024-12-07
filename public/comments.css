@@ -1,0 +1,79 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container for comments */
+.comments-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+/* Individual comment */
+.comment {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #EFFFFF;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 15px 25px 30px 5px;
+}
+
+/* Last comment doesn't need a border */
+.comment:last-child {
+    border-bottom: none;
+}
+
+/* Comment header (username and timestamp) */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.username {
+    font-weight: bold;
+    color: #0077cc;
+}
+
+.timestamp {
+    font-style: italic;
+    color: #999;
+}
+
+/* Comment body */
+.comment-body {
+    font-size: 1em;
+    line-height: 1.4;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .comments-container {
+        padding: 10px;
+    }
+
+    .comment {
+        padding: 10px;
+    }
+
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .timestamp {
+        margin-top: 5px;
+    }
+}
