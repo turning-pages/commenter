@@ -10,7 +10,6 @@ export async function initDB() {
 
   // Create the comments table if it doesn't exist
   await db.exec(`
-        DROP TABLE IF EXISTS comments;
         CREATE TABLE IF NOT EXISTS comments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             page_path TEXT NOT NULL,
