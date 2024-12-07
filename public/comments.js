@@ -14,7 +14,10 @@
   commenterNameOrEmail.style.width = "100%";
   commenterNameOrEmail.style.padding = "10px";
   commenterNameOrEmail.style.marginBottom = "10px";
-  commenterNameOrEmail.setAttribute("placeholder", "(Optional) Your name or email...");
+  commenterNameOrEmail.setAttribute(
+    "placeholder",
+    "(Optional) Your name or email..."
+  );
 
   const submitButton = document.createElement("button");
   submitButton.innerText = "Submit";
@@ -45,59 +48,63 @@
     const commentList = document.createElement("div");
     commentList.className = "comment-list";
 
-    commentData.forEach((comment) => {
-      // Create the comment container
-      const commentDiv = document.createElement("div");
-      commentDiv.className = "comment";
+    commentData
+      .filter((comment) => comment.path === window.location.pathname)
+      .forEach((comment) => {
+        // Create the comment container
+        const commentDiv = document.createElement("div");
+        commentDiv.className = "comment";
 
-      // Create the avatar
-      const avatarDiv = document.createElement("div");
-      avatarDiv.className = "avatar";
-      const avatarImg = document.createElement("img");
-      avatarImg.src = `https://ui-avatars.com/api/?size=50&name=${comment.commenter}&background=random&color=fff`;
-      avatarImg.alt = comment.commenter;
-      avatarDiv.appendChild(avatarImg);
+        // Create the avatar
+        const avatarDiv = document.createElement("div");
+        avatarDiv.className = "avatar";
+        const avatarImg = document.createElement("img");
+        avatarImg.src = `https://ui-avatars.com/api/?size=50&name=${comment.commenter}&background=random&color=fff`;
+        avatarImg.alt = comment.commenter;
+        avatarDiv.appendChild(avatarImg);
 
-      // Create the comment body
-      const commentBody = document.createElement("div");
-      commentBody.className = "comment-body";
+        // Create the comment body
+        const commentBody = document.createElement("div");
+        commentBody.className = "comment-body";
 
-      // Create the comment header (username and timestamp)
-      const commentHeader = document.createElement("div");
-      commentHeader.className = "comment-header";
-      const usernameSpan = document.createElement("span");
-      usernameSpan.className = "username";
-      usernameSpan.textContent = comment.commenter;
-      const timestampSpan = document.createElement("span");
-      timestampSpan.className = "timestamp";
-      timestampSpan.textContent = " at " + new Date(comment.created_at).toLocaleString();
+        // Create the comment header (username and timestamp)
+        const commentHeader = document.createElement("div");
+        commentHeader.className = "comment-header";
+        const usernameSpan = document.createElement("span");
+        usernameSpan.className = "username";
+        usernameSpan.textContent = comment.commenter;
+        const timestampSpan = document.createElement("span");
+        timestampSpan.className = "timestamp";
+        timestampSpan.textContent =
+          " at " + new Date(comment.created_at).toLocaleString();
 
-      commentHeader.appendChild(usernameSpan);
-      commentHeader.appendChild(timestampSpan);
+        commentHeader.appendChild(usernameSpan);
+        commentHeader.appendChild(timestampSpan);
 
-      // Create the comment text
-      const commentText = document.createElement("p");
-      commentText.className = "comment-text";
-      commentText.textContent = comment.comment;
+        // Create the comment text
+        const commentText = document.createElement("p");
+        commentText.className = "comment-text";
+        commentText.textContent = comment.comment;
 
-      // Assemble the comment body
-      commentBody.appendChild(commentHeader);
-      commentBody.appendChild(commentText);
+        // Assemble the comment body
+        commentBody.appendChild(commentHeader);
+        commentBody.appendChild(commentText);
 
-      // Assemble the complete comment
-      commentDiv.appendChild(avatarDiv);
-      commentDiv.appendChild(commentBody);
+        // Assemble the complete comment
+        commentDiv.appendChild(avatarDiv);
+        commentDiv.appendChild(commentBody);
 
-      // Add the comment to the comment list
-      commentList.appendChild(commentDiv);
-    });
+        // Add the comment to the comment list
+        commentList.appendChild(commentDiv);
+      });
 
     // Append the comment list to the body (or any other container)
     document.body.appendChild(commentList);
-  }
+  };
 
   // Function to add a new comment
   async function addComment() {
+    const path = window.location.pathname;
     const text = textArea.value.trim();
     const commenter = commenterNameOrEmail.value.trim() || "Anonymous";
 
@@ -110,7 +117,7 @@
       const response = await fetch("http://localhost:3000/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ comment: text, commenter }),
+        body: JSON.stringify({ comment: text, commenter, path }),
       });
 
       if (response.ok) {

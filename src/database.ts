@@ -12,6 +12,7 @@ export async function initDB() {
   await db.exec(`
         CREATE TABLE IF NOT EXISTS comments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            path TEXT NOT NULL,
             comment TEXT NOT NULL,
             commenter TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
