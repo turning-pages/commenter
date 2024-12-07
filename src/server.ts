@@ -88,7 +88,6 @@ app.get("/", (req: Request, res: Response) => {
                 <link rel="stylesheet" href="/comments.css">
             </head>
             <body>
-                <h1>Comment System</h1>
                 <div id="comments-container"></div>
                 <script src="/comments.js"></script>
             </body>
