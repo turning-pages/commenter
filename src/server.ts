@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 import { initDB } from "./database";
 import path from "path";
 
@@ -7,6 +8,12 @@ const app = express();
 const PORT = 3000;
 
 // Middleware
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://justopinion.onrender.com"],
+  methods: ["GET", "POST", "DELETE"],
+  credentials: false,
+};
+app.use(cors(corsOptions) as unknown as express.RequestHandler);
 app.use(bodyParser.json());
 
 app.use(
@@ -81,6 +88,20 @@ app.delete("/comments/:id", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/env.js", (req, res) => {
+  const env = {
+    apiUrl:
+      process.env.APP_ENV === "dev"
+        ? "http://localhost:3000"
+        : "https://justopinion.onrender.com", // or user defined API URL
+  };
+
+  res.type("application/javascript");
+  res.send(`
+      window.env = ${JSON.stringify(env)};
+  `);
+});
+
 app.get("/", (req: Request, res: Response) => {
   res.send(`
         <html>
@@ -88,8 +109,10 @@ app.get("/", (req: Request, res: Response) => {
                 <link rel="stylesheet" href="/comments.css">
             </head>
             <body>
-                <div id="comments-container"></div>
-                <script src="/comments.js"></script>
+                <div id="comments-container" style="margin: 10px">
+                  <script src="/env.js"></script>
+                  <script src="/comments.js"></script>
+                </div>
             </body>
         </html>
     `);

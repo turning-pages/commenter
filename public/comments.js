@@ -1,14 +1,20 @@
-(function () {
-  // Create the comment box and display area
-  const commentBoxContainer = document.createElement("div");
-  commentBoxContainer.style.fontFamily = "Arial, sans-serif";
-  commentBoxContainer.style.margin = "20px";
+(async function () {
+  const env = window.env || {};
+  const baseUrl = env.apiUrl || "http://localhost:3000";
+
+  // Find the immediate parent of the script tag
+  const scriptTag = document.currentScript;
+  const parent = scriptTag.parentNode;
+
+  // Create the comment box
+  const commentBox = document.createElement("div");
+  commentBox.className = "comment-box";
 
   const textArea = document.createElement("textarea");
-  textArea.style.width = "100%";
-  textArea.style.padding = "10px";
-  textArea.style.marginBottom = "10px";
   textArea.setAttribute("placeholder", "Write a comment...");
+  textArea.style.width = "100%";
+  textArea.style.marginBottom = "10px";
+  textArea.style.padding = "10px";
 
   const commenterNameOrEmail = document.createElement("input");
   commenterNameOrEmail.style.width = "100%";
@@ -26,24 +32,23 @@
   submitButton.style.color = "white";
   submitButton.style.border = "none";
   submitButton.style.cursor = "pointer";
-  submitButton.style.marginBottom = "20px";
 
-  const commentsDisplay = document.createElement("div");
-  commentsDisplay.style.marginTop = "20px";
+  // Function to create the comment box
+  function createCommentBox(parent) {
+    // Add textarea and button to the comment box
+    commentBox.appendChild(textArea);
+    commentBox.appendChild(commenterNameOrEmail);
+    commentBox.appendChild(submitButton);
 
-  // Append elements to the container
-  commentBoxContainer.appendChild(textArea);
-  commentBoxContainer.appendChild(commenterNameOrEmail);
-  commentBoxContainer.appendChild(submitButton);
-  commentBoxContainer.appendChild(commentsDisplay);
+    // Append the comment box to the parent
+    parent.appendChild(commentBox);
 
-  // Append the comment box container to the body of the document
-  document.body.appendChild(commentBoxContainer);
+    submitButton.addEventListener("click", addComment);
+  }
 
-  // Function to fetch and display comments
-  const fetchComments = async () => {
-    const response = await fetch("http://localhost:3000/comments");
-    const commentData = await response.json();
+  // Function to render the comments list
+  function renderComments(commentData, parent) {
+    document.querySelectorAll(".comment-list").forEach((list) => list.remove());
 
     const commentList = document.createElement("div");
     commentList.className = "comment-list";
@@ -98,11 +103,10 @@
         commentList.appendChild(commentDiv);
       });
 
-    // Append the comment list to the body (or any other container)
-    document.body.appendChild(commentList);
-  };
+    // Append the comment list to the parent
+    parent.appendChild(commentList);
+  }
 
-  // Function to add a new comment
   async function addComment() {
     const pagePath = window.location.href;
     const text = textArea.value.trim();
@@ -114,7 +118,7 @@
     }
 
     try {
-      const response = await fetch("http://localhost:3000/comments", {
+      const response = await fetch(`${baseUrl}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ comment: text, commenter, pagePath }),
@@ -132,9 +136,14 @@
     }
   }
 
-  // Fetch comments on page load
-  fetchComments();
+  // fetching comments
+  const fetchComments = async () => {
+    const response = await fetch(`${baseUrl}/comments`);
+    const commentData = await response.json();
+    renderComments(commentData, parent);
+  };
 
-  // Event listener for the submit button
-  submitButton.addEventListener("click", addComment);
+  // Add the comment box and the comments list to the parent
+  createCommentBox(parent);
+  fetchComments();
 })();
