@@ -3,9 +3,16 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { initDB } from "./database";
 import path from "path";
+import Config from "./config";
 
 const app = express();
 const PORT = 3000;
+
+// Load configuration from config.yaml
+const configReader = new Config();
+configReader.loadConfig();
+
+const baseApiUrl = configReader.get("apiUrl");
 
 // Middleware
 const corsOptions = {
@@ -89,11 +96,15 @@ app.delete("/comments/:id", async (req: Request, res: Response) => {
 });
 
 app.get("/env.js", (req, res) => {
+  const getApiUrl = () => {
+    if (process.env.APP_ENV === "prod" && baseApiUrl) {
+      return baseApiUrl;
+    }
+    return "http://localhost:3000";
+  };
+
   const env = {
-    apiUrl:
-      process.env.APP_ENV === "dev"
-        ? "http://localhost:3000"
-        : "https://justopinion.onrender.com", // or user defined API URL
+    apiUrl: getApiUrl(),
   };
 
   res.type("application/javascript");

@@ -1,10 +1,17 @@
 import { Database } from "sqlite3";
 import { open } from "sqlite";
+import Config from "./config";
+
+import * as path from "path";
+
+const configReader = new Config();
+configReader.loadConfig();
+const dbFileLocation = configReader.get("dbFileLocation");
 
 // Function to open the SQLite database
 export async function initDB() {
   const db = await open({
-    filename: "./comments.db",
+    filename: dbFileLocation ? dbFileLocation : "./comments.db",
     driver: Database,
   });
 
