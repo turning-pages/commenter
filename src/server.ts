@@ -9,11 +9,11 @@ const PORT = 3000;
 
 // Middleware
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://justopinion.onrender.com"],
+  origin: true,
   methods: ["GET", "POST", "DELETE"],
   credentials: false,
 };
-app.use(cors(corsOptions) as unknown as express.RequestHandler);
+app.use(cors() as unknown as express.RequestHandler);
 app.use(bodyParser.json());
 
 app.use(
