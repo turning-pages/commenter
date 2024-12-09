@@ -107,7 +107,7 @@
     // parent.appendChild(commentList);
     const referenceElement = document.getElementsByClassName("comment-box")[0];
     referenceElement.parentNode.insertBefore(
-      newElement,
+      commentList,
       referenceElement.nextSibling
     );
   }
