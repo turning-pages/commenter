@@ -25,7 +25,8 @@ Just Opinion (Comments) is a project to provide a very simple bare-bone commenti
     ```
 
 ## Configuration
-1. 
+1. If you want to use a remote database sqlite3 `.db` file, put the url on the `src/config.yaml` file `dbFileLocation` field.
+2. While deploying the application somewhere, you will have the webservice url or the api endpoint. Update the `apiUrl` field in the `src/config.yaml` file with that value (e.g.: `https://<your-domain>.<your-tld>`) replacing the existing value.
 
 ## Running
 
@@ -48,8 +49,6 @@ Just Opinion (Comments) is a project to provide a very simple bare-bone commenti
     ```
    2. The url will be `https://<your-domain>.<your-tld>` i.e. where you are deploying the application.
 
-4. If you want to use a remote database sqlite3 `.db` file, put the url on the `src/config.yaml` file `dbFileLocation` field.
-5. While deploying the application somewhere, you will have the webservice url or the api endpoint. Update the `apiUrl` field in the `src/config.yaml` file with that value (e.g.: `https://<your-domain>.<your-tld>`) replacing the existing value.
 
 
 ## Deploying
