@@ -6,13 +6,20 @@ import path from "path";
 import Config from "./config";
 
 const app = express();
-const PORT = 3000;
 
 // Load configuration from config.yaml
 const configReader = new Config();
 configReader.loadConfig();
 
 const baseApiUrl = configReader.get("apiUrl");
+const applicationPort = configReader.get("applicationPort");
+
+const getApiUrl = () => {
+  if (process.env.APP_ENV === "prod" && baseApiUrl) {
+    return baseApiUrl;
+  }
+  return `http://localhost:${applicationPort}`;
+};
 
 // Middleware
 const corsOptions = {
@@ -96,13 +103,6 @@ app.delete("/comments/:id", async (req: Request, res: Response) => {
 });
 
 app.get("/env.js", (req, res) => {
-  const getApiUrl = () => {
-    if (process.env.APP_ENV === "prod" && baseApiUrl) {
-      return baseApiUrl;
-    }
-    return "http://localhost:3000";
-  };
-
   const env = {
     apiUrl: getApiUrl(),
   };
@@ -130,6 +130,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(applicationPort, () => {
+  console.log(`Server running on ${getApiUrl()}`);
 });

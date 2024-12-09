@@ -24,21 +24,33 @@ Just Opinion (Comments) is a project to provide a very simple bare-bone commenti
     npm install
     ```
 
+## Configuration
+1. 
+
 ## Running
 
 1. Build the project:
    ```bash
    npm run build
    ```
-2. Start the development server in `dev` mode:
-    ```bash
-    npm run dev
-    ```
-3. Start the development server in `production` mode:
+2. Development:
+   1. Start the server in `dev` mode:
+        ```bash
+        npm run dev
+        ```
+        This will start the application by default at port `3000`
+    2. Open your browser and navigate to `http://localhost:3000`
+
+3. Production
+   1. Start the server in `production` mode:
     ```bash
     npm start
     ```
-4. Open your browser and navigate to `http://localhost:3000`
+   2. The url will be `https://<your-domain>.<your-tld>` i.e. where you are deploying the application.
+
+4. If you want to use a remote database sqlite3 `.db` file, put the url on the `src/config.yaml` file `dbFileLocation` field.
+5. While deploying the application somewhere, you will have the webservice url or the api endpoint. Update the `apiUrl` field in the `src/config.yaml` file with that value (e.g.: `https://<your-domain>.<your-tld>`) replacing the existing value.
+
 
 ## Deploying
 - It is open to deploy anywhere `nodejs` express application runs. 
