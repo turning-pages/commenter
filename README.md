@@ -51,6 +51,7 @@ Just Opinion (Comments) is a project to provide a very simple bare-bone commenti
 ### Embedding to a site
 - After deploying to `https://<your-domain>.<your-tld>`, you can use the following code anywhere you want the comment box to show up
 ```bash
+<link rel="stylesheet" href="https://<your-domain>.<your-tld>/comments.css">
 <script src="https://<your-domain>.<your-tld>/env.js"></script>
 <script src="https://<your-domain>.<your-tld>/comments.js"></script>
 ```
