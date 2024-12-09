@@ -104,7 +104,12 @@
       });
 
     // Append the comment list to the parent
-    parent.appendChild(commentList);
+    // parent.appendChild(commentList);
+    const referenceElement = document.getElementsByClassName("comment-box")[0];
+    referenceElement.parentNode.insertBefore(
+      newElement,
+      referenceElement.nextSibling
+    );
   }
 
   async function addComment() {
